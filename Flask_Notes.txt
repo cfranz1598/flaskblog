@@ -1,0 +1,71 @@
+#  Flask:
+#Environment vatiable for base python file:
+export FLASK_APP=flaskblog.py
+
+# to run lask web server (generally 5000):
+flask run
+
+# debug mode:
+export FLASK_DEBUG=1
+
+# HTML templates for into 
+<project>/templates
+
+# installing WTF
+pip3 install flask-wtf
+
+# WTF forms
+from wtforms import StringField, PasswordField, SubmitField, BooleanField
+
+# wtf validators
+from wtforms.validators import DataRequired, Length, Email, EqualTo
+
+# create a secret key:
+pi@busterpi:~/Flask_Blog $ python3
+Python 3.9.2 (default, Mar 12 2021, 04:06:34) 
+[GCC 10.2.1 20210110] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import secrets
+>>> secrets.token_hex(16)
+'580fcfbda3aa2d2af4a7af8658dbee28'
+
+#add database:
+pip3 install flask-sqlalchemy
+
+from flask_sqlalchemy import SQLAlchemy
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqllite:///site.db'
+
+db = SQLAlchemy(app)
+
+# database tables are classes:
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(20), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    image_file = db.Column(db.String(20), nullable=False,
+                           default='default.jpg')
+    password = db.Column(db.String(60), unique=True, nullable=False)
+    posts = db.relationship('Post', backref='author', lazy=True)
+
+#database table name will be lowercase of class name
+
+#to physiclly create database:
+pi@busterpi:~/Flask_Blog $ python3 
+Python 3.9.2 (default, Mar 12 2021, 04:06:34) 
+[GCC 10.2.1 20210110] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> from flaskblog import db
+/home/pi/.local/lib/python3.9/site-packages/flask_sqlalchemy/__init__.py:872: FSADeprecationWarning: SQLALCHEMY_TRACK_MODIFICATIONS adds significant overhead and will be disabled by default in the future.  Set it to True or False to suppress this warning.
+  warnings.warn(FSADeprecationWarning(
+>>> db.create_all()
+>>> quit()
+
+# sending an email:
+pip3 install flask-mail
+
+
+
+
+
+
